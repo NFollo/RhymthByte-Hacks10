@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -16,11 +17,10 @@ public class Conductor : MonoBehaviour
     private int nextIndexBottom = 0;
     public float beatsShownInAdvance;
     
-    [Header("Accuracy in ms")]
-    float perfectWindow = 21.5f;
-    float goodWindow = 43f;
-    float okayWindow = 102f;
-    // float missWindow = 150f;
+    [Header("Accuracy(+-) Window in ms")]
+    public float perfectWindow = 43f;
+    public float goodWindow = 102f;
+    public float okayWindow = 135f;
 
     [Header("Public Values: Don't Touch")]
     public float progress = 0f;
@@ -54,6 +54,8 @@ public class Conductor : MonoBehaviour
         songLength = music.length;
     }
     
+    private Queue<NoteBehaviour> topLane = new Queue<NoteBehaviour>();
+    private Queue<NoteBehaviour> bottomLane = new Queue<NoteBehaviour>();
 
     private void Update() {
         // Get the current position in the song in seconds
@@ -63,29 +65,66 @@ public class Conductor : MonoBehaviour
         // Get the current progress
         progress = songPosition/songLength;
 
-        // Actual song stuff
+        // Spawns the notes
         if(nextIndexTop < notesTop.Length && notesTop[nextIndexTop] < songPositionInBeats + beatsShownInAdvance) {
-            GameObject newNote = Instantiate(notePrefab, new Vector3(13f, 2.2f, -1f), Quaternion.identity);
+            GameObject newNote = Instantiate(notePrefab, new Vector3(13f, 2.2f, -1f), Quaternion.identity, this.transform);
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
             noteBehaviour.prevNote = lastNoteTop;
             lastNoteTop = newNote;
-            noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
-            noteBehaviour.secPerBeat = secPerBeat;
             noteBehaviour.isTop = true;
+            noteBehaviour.hitBeat = notesTop[nextIndexTop];
             nextIndexTop++;
+            topLane.Enqueue(noteBehaviour);
         }
         if(nextIndexBottom < notesBottom.Length && notesBottom[nextIndexBottom] < songPositionInBeats + beatsShownInAdvance) {
-            GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity);
+            GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity, this.transform);
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
             noteBehaviour.prevNote = lastNoteBot;
             lastNoteBot = newNote;
-            noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
-            noteBehaviour.secPerBeat = secPerBeat;
             noteBehaviour.isTop = false;
+            noteBehaviour.hitBeat = notesBottom[nextIndexBottom];
             nextIndexBottom++;
+            bottomLane.Enqueue(noteBehaviour);
         }
-        //Debug.Log("Beat" + songPositionInBeats);
+        
+        // Enter the if statement if you can no longer hit the note
+        if(topLane.Count != 0 && topLane.Peek().hitBeat*secPerBeat - songPosition < (0-(okayWindow/1000))) {
+            topLane.Dequeue().Miss();
+        }
+
+        // Enter the if statement if you can no longer hit the note
+        if(bottomLane.Count != 0 && bottomLane.Peek().hitBeat*secPerBeat - songPosition < (0-(okayWindow/1000))) {
+            bottomLane.Dequeue().Miss();
+        }
+    }
+
+    public void actOnTop(float currentPosition) {
+        if(topLane.Count != 0 && Mathf.Abs(topLane.Peek().hitBeat*secPerBeat - currentPosition) <(okayWindow/1000)) {
+            if(Mathf.Abs(topLane.Peek().hitBeat*secPerBeat - currentPosition) <(goodWindow/1000)) {
+                if(Mathf.Abs(topLane.Peek().hitBeat*secPerBeat - currentPosition) <(perfectWindow/1000)) {
+                    topLane.Dequeue().Perfect();
+                    return;
+                }
+                topLane.Dequeue().Good();
+                return;
+            }
+            topLane.Dequeue().Okay();
+            return;
+        }
     }
     
-
+    public void actOnBottom(float currentPosition) {
+        if(bottomLane.Count != 0 && Mathf.Abs(bottomLane.Peek().hitBeat*secPerBeat - currentPosition) < (okayWindow/1000)) {
+            if(Mathf.Abs(bottomLane.Peek().hitBeat*secPerBeat - currentPosition) <(goodWindow/1000)) {
+                if(Mathf.Abs(bottomLane.Peek().hitBeat*secPerBeat - currentPosition) <(perfectWindow/1000)) {
+                    bottomLane.Dequeue().Perfect();
+                    return;
+                }
+                bottomLane.Dequeue().Good();
+                return;
+            }
+            bottomLane.Dequeue().Okay();
+            return;
+        }
+    }
 }

@@ -25,14 +25,14 @@ public class Player : MonoBehaviour
 
     private void HitTop(InputAction.CallbackContext ctx) {
         if(ctx.ReadValueAsButton()) {
-            Debug.Log(conductor.songPositionInBeats);
+            conductor.actOnTop(conductor.songPosition);
         } else if (!ctx.ReadValueAsButton()) {
         }
     }
 
     private void HitBottom(InputAction.CallbackContext ctx) {
         if(ctx.ReadValueAsButton()) {
-            Debug.Log(conductor.songPositionInBeats);
+            conductor.actOnBottom(conductor.songPosition);
         } else if (!ctx.ReadValueAsButton()) {
         }
     }

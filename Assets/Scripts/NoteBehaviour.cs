@@ -3,6 +3,14 @@ using UnityEngine;
 
 public class NoteBehaviour : MonoBehaviour
 {
+
+    [Header("Behaviour")]
+    public float fadeSpeed;
+    public GameObject dyingNotePrefab;
+    private string mytext;
+    private bool isFakeAlive;
+
+
     [Header("Public Values: Don't Touch")]
     public float beatsShownInAdvance;
     public float secPerBeat;
@@ -12,12 +20,6 @@ public class NoteBehaviour : MonoBehaviour
     public GameObject prevNote;
     bool isAlive;
 
-    // public variables for prefabs
-    public float fadeSpeed;
-    public GameObject dyingNotePrefab;
-    private string mytext;
-    private bool isFakeAlive;
-    //private SpriteRenderer spriteRenderer; 
 
     private void Start() {
         Vector3 startPosition = transform.position;

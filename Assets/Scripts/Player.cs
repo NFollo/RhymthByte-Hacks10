@@ -14,16 +14,23 @@ public class Player : MonoBehaviour
     private void Awake() {
         conductor = GetComponent<Conductor>();
         playerInput = GetComponent<PlayerInput>();
-        playerInput.actions["Top"].performed += Test; 
-        playerInput.actions["Bottom"].performed += Test; 
+        playerInput.actions["Top"].performed += HitTop; 
+        playerInput.actions["Bottom"].performed += HitBottom; 
     }
 
     private void OnDisable() {
-        playerInput.actions["Top"].performed -= Test; 
-        playerInput.actions["Bottom"].performed -= Test; 
+        playerInput.actions["Top"].performed -= HitTop; 
+        playerInput.actions["Bottom"].performed -= HitBottom; 
     }
 
-    private void Test(InputAction.CallbackContext ctx) {
+    private void HitTop(InputAction.CallbackContext ctx) {
+        if(ctx.ReadValueAsButton()) {
+            Debug.Log(conductor.songPositionInBeats);
+        } else if (!ctx.ReadValueAsButton()) {
+        }
+    }
+
+    private void HitBottom(InputAction.CallbackContext ctx) {
         if(ctx.ReadValueAsButton()) {
             Debug.Log(conductor.songPositionInBeats);
         } else if (!ctx.ReadValueAsButton()) {

@@ -20,7 +20,7 @@ public class Conductor : MonoBehaviour
     float perfectWindow = 21.5f;
     float goodWindow = 43f;
     float okayWindow = 102f;
-    float missWindow = 150f;
+    // float missWindow = 150f;
 
     [Header("Public Values: Don't Touch")]
     public float progress = 0f;

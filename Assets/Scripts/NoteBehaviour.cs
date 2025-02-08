@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NoteBehaviour : MonoBehaviour
@@ -13,6 +14,8 @@ public class NoteBehaviour : MonoBehaviour
     // public variables for prefabs
     public float fadeSpeed;
     public GameObject dyingNotePrefab;
+    private string mytext;
+    private bool isFakeAlive;
     //private SpriteRenderer spriteRenderer; 
 
     private void Start() {
@@ -22,6 +25,8 @@ public class NoteBehaviour : MonoBehaviour
         float timeToReachTarget = beatsShownInAdvance * secPerBeat;
         velocity = difference/timeToReachTarget;
         isAlive = true;
+        mytext = "";
+        isFakeAlive = false;
         //dyingNotePrefab = null;
         //spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
@@ -34,13 +39,23 @@ public class NoteBehaviour : MonoBehaviour
     */
     private void Update() { 
 
-        if (isAlive) {
+        if (isAlive || isFakeAlive) {
             transform.position = new Vector3(transform.position.x - (velocity * Time.deltaTime), transform.position.y, transform.position.z);
+
+            // -------------- TEMPORARY FIX --------------
+
+            if(transform.position.x < -5.5) {
+                isAlive = false;
+                isFakeAlive = true;
+            }
+
+            // -------------------------------------------
+
         }
 
-        if(transform.position.x > -4.55 && transform.position.x < -4.45) {
-            Debug.Log("Hit Zone");
-        }
+        // if(transform.position.x > -4.55 && transform.position.x < -4.45) {
+        //     Debug.Log("Hit Zone");
+        // }
 
         if(transform.position.x < -13) {
             Destroy(this.gameObject);
@@ -50,25 +65,31 @@ public class NoteBehaviour : MonoBehaviour
         if (prevNote == null) {
             if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y > 0) {
                 if (transform.position.x > -4.8 && transform.position.x < -4.2) {
-                    Debug.Log("PERFECT");
+                    //Debug.Log("PERFECT");
+                    mytext = "PERFECT!";
                     isAlive = false;
                 } else if (transform.position.x > -5 && transform.position.x < -4) {
-                    Debug.Log("GOOD");
+                    //Debug.Log("GOOD");
+                    mytext = "GOOD";
                     isAlive = false;
                 } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
-                    Debug.Log("OKAY");
+                    //Debug.Log("OKAY");
+                    mytext = "OKAY";
                     isAlive = false;
                 }
             }
             if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y < 0) {
                 if (transform.position.x > -4.8 && transform.position.x < -4.2) {
-                    Debug.Log("PERFECT");
+                    //Debug.Log("PERFECT");
+                    mytext = "PERFECT!";
                     isAlive = false;
                 } else if (transform.position.x > -5 && transform.position.x < -4) {
-                    Debug.Log("GOOD");
+                    //Debug.Log("GOOD");
+                    mytext = "GOOD";
                     isAlive = false;
                 } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
-                    Debug.Log("OKAY");
+                    //Debug.Log("OKAY");
+                    mytext = "OKAY";
                     isAlive = false;
                 }
             } 
@@ -81,6 +102,9 @@ public class NoteBehaviour : MonoBehaviour
                 GameObject fakeNote = Instantiate(dyingNotePrefab, transform.position, Quaternion.identity);
                 DyingNote dyingNote = fakeNote.GetComponent<DyingNote>();
                 dyingNote.fadeSpeed = fadeSpeed;
+                dyingNote.mytext = mytext;
+                dyingNote.isFakeAlive = isFakeAlive;
+                dyingNote.velocity = velocity;
             }
             dyingNotePrefab = null;
             Destroy(this.gameObject);

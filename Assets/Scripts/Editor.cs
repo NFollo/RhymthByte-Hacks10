@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class Editor : MonoBehaviour
 {
+    public float roundTo = 1f;
+    private float multiplier;
     private Conductor conductor;
     private void Start() {
         conductor = GetComponent<Conductor>();
+        multiplier = 1f/roundTo;
     }
 
 
@@ -52,7 +56,7 @@ public class Editor : MonoBehaviour
 
     private List<float> topNotes = new List<float>();
     void OnTop() {
-        topNotes.Add(Mathf.Round(conductor.songPositionInBeats*2)/2);
+        topNotes.Add(Mathf.Round(conductor.songPositionInBeats*multiplier)/multiplier);
     }
 
     private List<float> bottomNotes = new List<float>();
@@ -61,6 +65,8 @@ public class Editor : MonoBehaviour
     }
 
     void OnSave() {
+        topNotes = topNotes.Distinct().ToList();
+        bottomNotes = bottomNotes.Distinct().ToList();
         CreateText("notesTop", topNotes);
         CreateText("notesBottom", bottomNotes);
     }

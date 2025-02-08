@@ -170,36 +170,17 @@ MonoBehaviour:
   songBPM: 124
   musicSource: {fileID: 0}
   notePrefab: {fileID: 1576604815613733689, guid: 5b83f223f23924e93a9ea40546bd9a84, type: 3}
-  notesTop:
-  - 9.5
-  - 10.5
-  - 11.5
-  - 12.5
-  - 17.5
-  - 18.5
-  - 19.5
-  - 20.5
-  notesBottom:
-  - 6.5
-  - 7.5
-  - 8.5
-  - 13.5
-  - 14.5
-  - 15.5
-  - 16.5
-  - 17.5
-  - 18.5
-  - 19.5
-  - 20.5
+  notesTop: []
+  notesBottom: []
   beatsShownInAdvance: 5
-  newNoteFadeSpeed: 0
+  progress: 0
+  songLength: 0
   secPerBeat: 0
   songPosition: 0
   songPositionInBeats: 0
   dspSongTime: 0
   lastNoteTop: {fileID: 0}
   lastNoteBot: {fileID: 0}
-  dyingNotePrefab: {fileID: 0}
 --- !u!82 &372873153
 AudioSource:
   m_ObjectHideFlags: 0
@@ -339,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1502cf0c3e7ee42a4893b563f05c66c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundTo: 0.5
 --- !u!1 &430976413
 GameObject:
   m_ObjectHideFlags: 0

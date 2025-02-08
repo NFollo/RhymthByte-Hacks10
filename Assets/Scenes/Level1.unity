@@ -347,7 +347,7 @@ MonoBehaviour:
   - 79
   - 79.5
   - 80
-  beatsShownInAdvance: 3
+  beatsShownInAdvance: 2.4
   perfectWindow: 43
   goodWindow: 102
   okayWindow: 135

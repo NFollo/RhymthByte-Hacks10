@@ -24,6 +24,9 @@ public class Conductor : MonoBehaviour
     public float songPosition;
     public float songPositionInBeats;
     public float dspSongTime;
+    public GameObject lastNoteTop;
+    public GameObject lastNoteBot;
+    public GameObject dyingNotePrefab;
     
     private void Start() {
         // Get the audio player for the music
@@ -40,6 +43,10 @@ public class Conductor : MonoBehaviour
 
         // Start the song
         musicSource.Play();
+
+        lastNoteTop = null;
+        lastNoteBot = null;
+
     }
 
     private void Update() {
@@ -52,6 +59,9 @@ public class Conductor : MonoBehaviour
         if(nextIndexTop < notesTop.Length && notesTop[nextIndexTop] < songPositionInBeats + beatsShownInAdvance) {
             GameObject newNote = Instantiate(notePrefab, new Vector3(13f, 2.2f, -1f), Quaternion.identity);
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
+            noteBehaviour.prevNote = lastNoteTop;
+            lastNoteTop = newNote;
+            noteBehaviour.dyingNotePrefab = dyingNotePrefab;
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
             nextIndexTop++;
@@ -60,6 +70,9 @@ public class Conductor : MonoBehaviour
         if(nextIndexBottom < notesBottom.Length && notesBottom[nextIndexBottom] < songPositionInBeats + beatsShownInAdvance) {
             GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity);
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
+            noteBehaviour.prevNote = lastNoteBot;
+            lastNoteBot = newNote;
+            noteBehaviour.dyingNotePrefab = dyingNotePrefab;
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
             nextIndexBottom++;

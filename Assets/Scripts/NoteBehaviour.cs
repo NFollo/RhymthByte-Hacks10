@@ -7,10 +7,13 @@ public class NoteBehaviour : MonoBehaviour
     public float secPerBeat;
 
     private float velocity;
-
-    public float fadeSpeed;
+    public GameObject prevNote;
     bool isAlive;
-    private SpriteRenderer spriteRenderer; 
+
+    // public variables for prefabs
+    public float fadeSpeed;
+    public GameObject dyingNotePrefab;
+    //private SpriteRenderer spriteRenderer; 
 
     private void Start() {
         Vector3 startPosition = transform.position;
@@ -19,7 +22,8 @@ public class NoteBehaviour : MonoBehaviour
         float timeToReachTarget = beatsShownInAdvance * secPerBeat;
         velocity = difference/timeToReachTarget;
         isAlive = true;
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        //dyingNotePrefab = null;
+        //spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
     /*
@@ -43,41 +47,56 @@ public class NoteBehaviour : MonoBehaviour
         }
 
         //Hit Zones
-        if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y > 0) {
-            if (transform.position.x > -4.8 && transform.position.x < -4.2) {
-                Debug.Log("PERFECT");
-                isAlive = false;
-            } else if (transform.position.x > -5 && transform.position.x < -4) {
-                Debug.Log("GOOD");
-                isAlive = false;
-            } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
-                Debug.Log("OKAY");
-                isAlive = false;
+        if (prevNote == null) {
+            if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y > 0) {
+                if (transform.position.x > -4.8 && transform.position.x < -4.2) {
+                    Debug.Log("PERFECT");
+                    isAlive = false;
+                } else if (transform.position.x > -5 && transform.position.x < -4) {
+                    Debug.Log("GOOD");
+                    isAlive = false;
+                } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
+                    Debug.Log("OKAY");
+                    isAlive = false;
+                }
             }
+            if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y < 0) {
+                if (transform.position.x > -4.8 && transform.position.x < -4.2) {
+                    Debug.Log("PERFECT");
+                    isAlive = false;
+                } else if (transform.position.x > -5 && transform.position.x < -4) {
+                    Debug.Log("GOOD");
+                    isAlive = false;
+                } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
+                    Debug.Log("OKAY");
+                    isAlive = false;
+                }
+            } 
+        } else {
+            //Debug.Log(prevNote);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y < 0) {
-            if (transform.position.x > -4.8 && transform.position.x < -4.2) {
-                Debug.Log("PERFECT");
-                isAlive = false;
-            } else if (transform.position.x > -5 && transform.position.x < -4) {
-                Debug.Log("GOOD");
-                isAlive = false;
-            } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
-                Debug.Log("OKAY");
-                isAlive = false;
+
+        if (!isAlive) {
+            if (dyingNotePrefab != null) {
+                GameObject fakeNote = Instantiate(dyingNotePrefab, transform.position, Quaternion.identity);
+                DyingNote dyingNote = fakeNote.GetComponent<DyingNote>();
+                dyingNote.fadeSpeed = fadeSpeed;
             }
+            dyingNotePrefab = null;
+            Destroy(this.gameObject);
         }
+
     }
 
-    private void FixedUpdate() {
-        if (!isAlive) {
-            Color color = this.spriteRenderer.color;
-            color.a = Mathf.Max(0, color.a - fadeSpeed * Time.deltaTime);          
-            if (color.a <= 0) {
-                Destroy(this.gameObject);
-            }
-            this.spriteRenderer.color = color;
-        }    
-    }
+    // private void FixedUpdate() {
+    //     if (!isAlive) {
+    //         Color color = this.spriteRenderer.color;
+    //         color.a = Mathf.Max(0, color.a - fadeSpeed * Time.deltaTime);          
+    //         if (color.a <= 0) {
+    //             Destroy(this.gameObject);
+    //         }
+    //         this.spriteRenderer.color = color;
+    //     }    
+    // }
 
 }

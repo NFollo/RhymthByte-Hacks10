@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
 
@@ -9,12 +10,17 @@ public class Conductor : MonoBehaviour
     public float songBPM;
     public AudioSource musicSource;
 
+    [Header("Level Notes")]
+    public GameObject notePrefab;
+    public float[] notes;
+    private int nextIndex = 0;
+    public float beatsShownInAdvance;
+
     [Header("Public Values: Don't Touch")]
     public float secPerBeat;
     public float songPosition;
     public float songPositionInBeats;
     public float dspSongTime;
-    public float currentTime;
     
     private void Start() {
         // Get the audio player for the music
@@ -36,9 +42,18 @@ public class Conductor : MonoBehaviour
     private void Update() {
         // Get the current position in the song in seconds
         songPosition = (float) (AudioSettings.dspTime - dspSongTime);
-        currentTime = (float) AudioSettings.dspTime;
         // Get the current position in beats
         songPositionInBeats = songPosition / secPerBeat;
+
+        // Actual song stuff
+        if(nextIndex < notes.Length && notes[nextIndex] < songPositionInBeats + beatsShownInAdvance) {
+            GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity);
+            NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
+            noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
+            noteBehaviour.secPerBeat = secPerBeat;
+            nextIndex++;
+        }
+        Debug.Log("Beat" + songPositionInBeats);
     }
     
 

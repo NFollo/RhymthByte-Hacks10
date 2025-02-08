@@ -1,0 +1,21 @@
+GenericPropertyJSON:{\"name\":\"
+    notesTop
+\",\"type\":-1,\"arraySize\":
+    3
+,\"arrayType\":\"float\",\"children\":[{\"name\":\"Array\",\"type\":-1,\"arraySize\":
+    3
+    ,\"arrayType\":\"float\",\"children\":[{\"name\":\"size\",\"type\":12,\"val\":
+            3
+        },
+        {\"name\":\"data\",\"type\":2,\"val\":20},
+        {\"name\":\"data\",\"type\":2,\"val\":25},
+        {\"name\":\"data\",\"type\":2,\"val\":25}
+    ]}    
+]}
+
+
+GenericPropertyJSON:{\"name\":\"notesTop\",\"type\":-1,\"arraySize\":3,\"arrayType\":\"float\",\"children\":[{\"name\":\"Array\",\"type\":-1,\"arraySize\":3,\"arrayType\":\"float\",\"children\":[{\"name\":\"size\",\"type\":12,\"val\":3},{\"name\":\"data\",\"type\":2,\"val\":20},{\"name\":\"data\",\"type\":2,\"val\":25},{\"name\":\"data\",\"type\":2,\"val\":25}]}]}
+GenericPropertyJSON:{\"name\":\"notesTop\",\"type\":-1,\"arraySize\":3,\"arrayType\":\"float\",\"children\":[{\"name\":\"Array\",\"type\":-1,\"arraySize\":3,\"arrayType\":\"float\",\"children\":[{\"name\":\"size\",\"type\":12,\"val\":3},{\"name\":\"data\",\"type\":2,\"val\":20},{\"name\":\"data\",\"type\":2,\"val\":25},{\"name\":\"data\",\"type\":2,\"val\":25}]}]}
+
+GenericPropertyJSON:{\"name\":\"notesTop\",\"type\":-1,\"arraySize\":0,\"arrayType\":\"float\",\"children\":[{\"name\":\"Array\",\"type\":-1,\"arraySize\":0,\"arrayType\":\"float\",\"children\":[{\"name\":\"size\",\"type\":12,\"val\":0}]}]}
+GenericPropertyJSON:{\"name\":\"notesTop\",\"type\":-1,\"arraySize\":0,\"arrayType\":\"float\",\"children\":[{\"name\":\"Array\",\"type\":-1,\"arraySize\":0,\"arrayType\":\"float\",\"children\":[{\"name\":\"size\",\"type\":12,\"val\":0}]}]}

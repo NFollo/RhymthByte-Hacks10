@@ -6,6 +6,7 @@ public class NoteBehaviour : MonoBehaviour
     [Header("Public Values: Don't Touch")]
     public float beatsShownInAdvance;
     public float secPerBeat;
+    public bool isTop;
 
     private float velocity;
     public GameObject prevNote;
@@ -63,7 +64,7 @@ public class NoteBehaviour : MonoBehaviour
 
         //Hit Zones
         if (prevNote == null) {
-            if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y > 0) {
+            if (Input.GetKeyDown(KeyCode.F) && isTop) {
                 if (transform.position.x > -4.8 && transform.position.x < -4.2) {
                     //Debug.Log("PERFECT");
                     mytext = "PERFECT!";
@@ -78,7 +79,7 @@ public class NoteBehaviour : MonoBehaviour
                     isAlive = false;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y < 0) {
+            if (Input.GetKeyDown(KeyCode.J) && !isTop) {
                 if (transform.position.x > -4.8 && transform.position.x < -4.2) {
                     //Debug.Log("PERFECT");
                     mytext = "PERFECT!";
@@ -89,7 +90,7 @@ public class NoteBehaviour : MonoBehaviour
                     isAlive = false;
                 } else if (transform.position.x > -5.5 && transform.position.x < -3.5) {
                     //Debug.Log("OKAY");
-                    mytext = "OKAY";
+                    mytext = "OKAY"; 
                     isAlive = false;
                 }
             } 

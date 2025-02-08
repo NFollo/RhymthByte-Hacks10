@@ -18,7 +18,6 @@ public class Conductor : MonoBehaviour
     private int nextIndexTop = 0;
     private int nextIndexBottom = 0;
     public float beatsShownInAdvance;
-    public float newNoteFadeSpeed;
 
     [Header("Public Values: Don't Touch")]
     public float progress = 0f;
@@ -29,7 +28,6 @@ public class Conductor : MonoBehaviour
     public float dspSongTime;
     public GameObject lastNoteTop;
     public GameObject lastNoteBot;
-    public GameObject dyingNotePrefab;
     
     private void Start() {
         // Get the audio player for the music
@@ -68,22 +66,20 @@ public class Conductor : MonoBehaviour
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
             noteBehaviour.prevNote = lastNoteTop;
             lastNoteTop = newNote;
-            noteBehaviour.dyingNotePrefab = dyingNotePrefab;
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
+            noteBehaviour.isTop = true;
             nextIndexTop++;
-            noteBehaviour.fadeSpeed = newNoteFadeSpeed;
         }
         if(nextIndexBottom < notesBottom.Length && notesBottom[nextIndexBottom] < songPositionInBeats + beatsShownInAdvance) {
             GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity);
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
             noteBehaviour.prevNote = lastNoteBot;
             lastNoteBot = newNote;
-            noteBehaviour.dyingNotePrefab = dyingNotePrefab;
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
+            noteBehaviour.isTop = false;
             nextIndexBottom++;
-            noteBehaviour.fadeSpeed = newNoteFadeSpeed;
         }
         //Debug.Log("Beat" + songPositionInBeats);
     }

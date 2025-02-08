@@ -17,6 +17,7 @@ public class Conductor : MonoBehaviour
     private int nextIndexTop = 0;
     private int nextIndexBottom = 0;
     public float beatsShownInAdvance;
+    public float newNoteFadeSpeed;
 
     [Header("Public Values: Don't Touch")]
     public float secPerBeat;
@@ -54,6 +55,7 @@ public class Conductor : MonoBehaviour
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
             nextIndexTop++;
+            noteBehaviour.fadeSpeed = newNoteFadeSpeed;
         }
         if(nextIndexBottom < notesBottom.Length && notesBottom[nextIndexBottom] < songPositionInBeats + beatsShownInAdvance) {
             GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity);
@@ -61,8 +63,9 @@ public class Conductor : MonoBehaviour
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
             nextIndexBottom++;
+            noteBehaviour.fadeSpeed = newNoteFadeSpeed;
         }
-        Debug.Log("Beat" + songPositionInBeats);
+        //Debug.Log("Beat" + songPositionInBeats);
     }
     
 

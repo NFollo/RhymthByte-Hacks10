@@ -12,8 +12,10 @@ public class Conductor : MonoBehaviour
 
     [Header("Level Notes")]
     public GameObject notePrefab;
-    public float[] notes;
-    private int nextIndex = 0;
+    public float[] notesTop;
+    public float[] notesBottom;
+    private int nextIndexTop = 0;
+    private int nextIndexBottom = 0;
     public float beatsShownInAdvance;
 
     [Header("Public Values: Don't Touch")]
@@ -46,12 +48,19 @@ public class Conductor : MonoBehaviour
         songPositionInBeats = songPosition / secPerBeat;
 
         // Actual song stuff
-        if(nextIndex < notes.Length && notes[nextIndex] < songPositionInBeats + beatsShownInAdvance) {
+        if(nextIndexTop < notesTop.Length && notesTop[nextIndexTop] < songPositionInBeats + beatsShownInAdvance) {
+            GameObject newNote = Instantiate(notePrefab, new Vector3(13f, 2.2f, -1f), Quaternion.identity);
+            NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
+            noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
+            noteBehaviour.secPerBeat = secPerBeat;
+            nextIndexTop++;
+        }
+        if(nextIndexBottom < notesBottom.Length && notesBottom[nextIndexBottom] < songPositionInBeats + beatsShownInAdvance) {
             GameObject newNote = Instantiate(notePrefab, new Vector3(13f, -2.2f, -1f), Quaternion.identity);
             NoteBehaviour noteBehaviour = newNote.GetComponent<NoteBehaviour>();
             noteBehaviour.beatsShownInAdvance = beatsShownInAdvance;
             noteBehaviour.secPerBeat = secPerBeat;
-            nextIndex++;
+            nextIndexBottom++;
         }
         Debug.Log("Beat" + songPositionInBeats);
     }

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Android;
 
-    [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class Conductor : MonoBehaviour
 {
     [Header("Music Settings")]
@@ -18,6 +15,12 @@ public class Conductor : MonoBehaviour
     private int nextIndexTop = 0;
     private int nextIndexBottom = 0;
     public float beatsShownInAdvance;
+    
+    [Header("Accuracy in ms")]
+    float perfectWindow = 21.5f;
+    float goodWindow = 43f;
+    float okayWindow = 102f;
+    float missWindow = 150f;
 
     [Header("Public Values: Don't Touch")]
     public float progress = 0f;
@@ -49,8 +52,8 @@ public class Conductor : MonoBehaviour
         lastNoteBot = null;
 
         songLength = music.length;
-
     }
+    
 
     private void Update() {
         // Get the current position in the song in seconds

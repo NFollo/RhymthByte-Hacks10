@@ -1,0 +1,32 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+/**
+ * This script is for when the player is actually playing the game.
+ * It includes all the checking for the notes and the actual gameplay as well.
+ */
+
+public class Player : MonoBehaviour
+{
+    private PlayerInput playerInput;
+    private Conductor conductor;
+
+    private void Awake() {
+        conductor = GetComponent<Conductor>();
+        playerInput = GetComponent<PlayerInput>();
+        playerInput.actions["Top"].performed += Test; 
+        playerInput.actions["Bottom"].performed += Test; 
+    }
+
+    private void OnDisable() {
+        playerInput.actions["Top"].performed -= Test; 
+        playerInput.actions["Bottom"].performed -= Test; 
+    }
+
+    private void Test(InputAction.CallbackContext ctx) {
+        if(ctx.ReadValueAsButton()) {
+            Debug.Log(conductor.songPositionInBeats);
+        } else if (!ctx.ReadValueAsButton()) {
+        }
+    }
+}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TitleText : MonoBehaviour
 {
@@ -42,5 +43,9 @@ public class TitleText : MonoBehaviour
         } else {
             delay -= Time.deltaTime;
         }
+    }
+
+    public void SwitchLevel() {
+        SceneManager.LoadScene("Level1");
     }
 }

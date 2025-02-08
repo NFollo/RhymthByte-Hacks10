@@ -30,7 +30,7 @@ public class ColorIndicators : MonoBehaviour
         if (timer > 0) {
             timer = Mathf.Max(timer - Time.deltaTime, 0);
         } else if (this.transform.localScale.x >= 0.2) {
-            this.transform.localScale -= new Vector3(speed*Time.deltaTime, speed*Time.deltaTime, 0f);
+            this.transform.localScale -= new Vector3(speed*Time.fixedDeltaTime, speed*Time.fixedDeltaTime, 0f);
         } else if (this.transform.localScale.x != 0 && ( (!Input.GetKey(KeyCode.UpArrow) && isTop) || (!Input.GetKey(KeyCode.DownArrow) && !isTop) ) ) {
             this.transform.localScale = new Vector3(0f, 0f, 1f);
         }  

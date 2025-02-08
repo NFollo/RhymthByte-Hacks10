@@ -18,6 +18,9 @@ public class IntroCircle : MonoBehaviour
 
             this.transform.localScale += new Vector3( speed*Time.deltaTime, speed*Time.deltaTime, 1f);
             speed += acceleration * Time.deltaTime;
+            if (this.transform.localScale.x >= 5f) {
+                Destroy(this.gameObject);
+            }
 
         } else {
             delay -= Time.deltaTime;

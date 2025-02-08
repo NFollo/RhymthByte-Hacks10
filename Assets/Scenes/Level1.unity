@@ -167,11 +167,15 @@ MonoBehaviour:
   music: {fileID: 8300000, guid: 667bcd0284522443ea4a325529466613, type: 3}
   songBPM: 124
   musicSource: {fileID: 0}
+  notePrefab: {fileID: 1576604815613733689, guid: 5b83f223f23924e93a9ea40546bd9a84, type: 3}
+  notes:
+  - 10
+  - 120
+  beatsShownInAdvance: 5
   secPerBeat: 0
   songPosition: 0
   songPositionInBeats: 0
   dspSongTime: 0
-  currentTime: 0
 --- !u!82 &372873153
 AudioSource:
   m_ObjectHideFlags: 0
@@ -185,7 +189,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.556
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -454,7 +458,7 @@ GameObject:
   - component: {fileID: 850099319}
   - component: {fileID: 850099318}
   m_Layer: 0
-  m_Name: Circle_0 (1)
+  m_Name: bottomCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,7 +545,7 @@ GameObject:
   - component: {fileID: 923703929}
   - component: {fileID: 923703928}
   m_Layer: 0
-  m_Name: Circle_0
+  m_Name: topCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

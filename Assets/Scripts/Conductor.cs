@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
@@ -20,6 +21,8 @@ public class Conductor : MonoBehaviour
     public float newNoteFadeSpeed;
 
     [Header("Public Values: Don't Touch")]
+    public float progress = 0f;
+    public float songLength;
     public float secPerBeat;
     public float songPosition;
     public float songPositionInBeats;
@@ -47,6 +50,8 @@ public class Conductor : MonoBehaviour
         lastNoteTop = null;
         lastNoteBot = null;
 
+        songLength = music.length;
+
     }
 
     private void Update() {
@@ -54,6 +59,8 @@ public class Conductor : MonoBehaviour
         songPosition = (float) (AudioSettings.dspTime - dspSongTime);
         // Get the current position in beats
         songPositionInBeats = songPosition / secPerBeat;
+        // Get the current progress
+        progress = songPosition/songLength;
 
         // Actual song stuff
         if(nextIndexTop < notesTop.Length && notesTop[nextIndexTop] < songPositionInBeats + beatsShownInAdvance) {

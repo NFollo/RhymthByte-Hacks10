@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private Conductor conductor;
     public ColorIndicators colorIndicatorTop;
     public ColorIndicators colorIndicatorBottom;
+    public GameObject pauseMenu;
 
     bool paused = false;
 
@@ -28,15 +29,18 @@ public class Player : MonoBehaviour
         if(paused) {
             Time.timeScale = 0f;
             AudioListener.pause = true;
+            pauseMenu.SetActive(true);
         } else {
             Time.timeScale = 1f;
             AudioListener.pause = false;
+            pauseMenu.SetActive(false);
         }
     }
 
     private void OnDisable() {
         playerInput.actions["Top"].performed -= HitTop; 
         playerInput.actions["Bottom"].performed -= HitBottom; 
+        playerInput.actions["Pause"].performed -= Pause;
     }
 
     private void HitTop(InputAction.CallbackContext ctx) {

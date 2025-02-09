@@ -19,7 +19,6 @@ public class NoteBehaviour : MonoBehaviour
     public bool isTop;
 
     private float velocity;
-    public GameObject prevNote;
     bool isAlive;
 
     private void Awake() {

@@ -13,17 +13,21 @@ public class ColorIndicators : MonoBehaviour
         timer = 0f;
     }
 
-    // Update is called once per frame
+    private bool showBool = false;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && isTop) {
+        if (showBool) {
             this.transform.localScale = new Vector3(0.23f, 0.23f, 1f);
             timer = hold;
         }
-        if (Input.GetKeyDown(KeyCode.J) && !isTop) {
-            this.transform.localScale = new Vector3(0.23f, 0.23f, 1f);
-            timer = hold;
-        }
+    }
+
+    public void show() {
+        showBool = true;
+    }
+
+    public void hide() {
+        showBool = false;
     }
 
     void FixedUpdate() {

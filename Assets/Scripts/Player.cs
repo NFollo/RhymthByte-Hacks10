@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /**
@@ -12,9 +13,8 @@ public class Player : MonoBehaviour
     private Conductor conductor;
     public ColorIndicators colorIndicatorTop;
     public ColorIndicators colorIndicatorBottom;
-    public GameObject pauseMenu;
 
-    bool paused = false;
+    public UnityEvent pause;
 
     private void Awake() {
         conductor = GetComponent<Conductor>();
@@ -25,16 +25,7 @@ public class Player : MonoBehaviour
     }
 
     private void Pause(InputAction.CallbackContext ctx) {
-        paused = !paused;
-        if(paused) {
-            Time.timeScale = 0f;
-            AudioListener.pause = true;
-            pauseMenu.SetActive(true);
-        } else {
-            Time.timeScale = 1f;
-            AudioListener.pause = false;
-            pauseMenu.SetActive(false);
-        }
+        pause.Invoke();
     }
 
     private void OnDisable() {
@@ -44,7 +35,7 @@ public class Player : MonoBehaviour
     }
 
     private void HitTop(InputAction.CallbackContext ctx) {
-        if(ctx.ReadValueAsButton() && !paused) {
+        if(ctx.ReadValueAsButton() && !PauseMenu.isGamePaused) {
             conductor.actOnTop(conductor.songPosition);
             colorIndicatorTop.show();
         } else if (!ctx.ReadValueAsButton()) {
@@ -53,7 +44,7 @@ public class Player : MonoBehaviour
     }
 
     private void HitBottom(InputAction.CallbackContext ctx) {
-        if(ctx.ReadValueAsButton() && !paused) {
+        if(ctx.ReadValueAsButton() && !PauseMenu.isGamePaused) {
             conductor.actOnBottom(conductor.songPosition);
             colorIndicatorBottom.show();
         } else if (!ctx.ReadValueAsButton()) {

@@ -87,6 +87,11 @@ public class Conductor : MonoBehaviour
         if(bottomLane.Count != 0 && bottomLane.Peek().hitBeat*secPerBeat - songPosition < (0-(okayWindow/1000))) {
             bottomLane.Dequeue().Miss();
         }
+
+        // Display end screen
+        if(progress >= 100f) {
+            
+        }
     }
 
     public void actOnTop(float currentPosition) {

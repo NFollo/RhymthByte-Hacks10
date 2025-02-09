@@ -45,7 +45,7 @@ public class NoteBehaviour : MonoBehaviour
 
     public void Miss() {
         // Destroy(this.gameObject);
-        Debug.Log("Miss!");
+        //Debug.Log("Miss!");
     }
 
     public void Okay() {

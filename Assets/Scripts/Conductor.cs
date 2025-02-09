@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(AudioSource))]
 public class Conductor : MonoBehaviour
 {
+    public static event Action<string> OnNoteScored;
+    private bool hasEnded;
     [Header("Music Settings")]
     public AudioClip music;
     public float songBPM;
@@ -47,6 +50,7 @@ public class Conductor : MonoBehaviour
         musicSource.PlayScheduled(dspSongTime);
 
         songLength = music.length;
+        hasEnded = false;
     }
     
     private Queue<NoteBehaviour> topLane = new Queue<NoteBehaviour>();
@@ -59,6 +63,10 @@ public class Conductor : MonoBehaviour
         songPositionInBeats = songPosition / secPerBeat;
         // Get the current progress
         progress = songPosition/songLength;
+        if (progress >= 1 && !hasEnded) {
+            OnNoteScored?.Invoke("end");
+            hasEnded = true;
+        }
 
         // Spawns the notes
         if(nextIndexTop < notesTop.Length && notesTop[nextIndexTop] < songPositionInBeats + beatsShownInAdvance) {
@@ -81,11 +89,13 @@ public class Conductor : MonoBehaviour
         // Enter the if statement if you can no longer hit the note
         if(topLane.Count != 0 && topLane.Peek().hitBeat*secPerBeat - songPosition < (0-(okayWindow/1000))) {
             topLane.Dequeue().Miss();
+            OnNoteScored?.Invoke("miss");
         }
 
         // Enter the if statement if you can no longer hit the note
         if(bottomLane.Count != 0 && bottomLane.Peek().hitBeat*secPerBeat - songPosition < (0-(okayWindow/1000))) {
             bottomLane.Dequeue().Miss();
+            OnNoteScored?.Invoke("miss");
         }
 
         // Display end screen
@@ -99,12 +109,15 @@ public class Conductor : MonoBehaviour
             if(Mathf.Abs(topLane.Peek().hitBeat*secPerBeat - currentPosition) <(goodWindow/1000)) {
                 if(Mathf.Abs(topLane.Peek().hitBeat*secPerBeat - currentPosition) <(perfectWindow/1000)) {
                     topLane.Dequeue().Perfect();
+                    OnNoteScored?.Invoke("perfect");
                     return;
                 }
                 topLane.Dequeue().Good();
+                OnNoteScored?.Invoke("good");
                 return;
             }
             topLane.Dequeue().Okay();
+            OnNoteScored?.Invoke("okay");
             return;
         }
     }
@@ -114,12 +127,15 @@ public class Conductor : MonoBehaviour
             if(Mathf.Abs(bottomLane.Peek().hitBeat*secPerBeat - currentPosition) <(goodWindow/1000)) {
                 if(Mathf.Abs(bottomLane.Peek().hitBeat*secPerBeat - currentPosition) <(perfectWindow/1000)) {
                     bottomLane.Dequeue().Perfect();
+                    OnNoteScored?.Invoke("perfect");
                     return;
                 }
                 bottomLane.Dequeue().Good();
+                OnNoteScored?.Invoke("good");
                 return;
             }
             bottomLane.Dequeue().Okay();
+            OnNoteScored?.Invoke("okay");
             return;
         }
     }

@@ -1,6 +1,17 @@
 # RhymthByte-Hacks10
  Hacks 10 project
 
+Members:
+Nicholas Follo
+Peter Jung
+
+Resources:
+Unity, GitHub
+API: https://picsum.photos/
+Music: https://freemusicarchive.org/
+Hacks Website
+
+
  Project Log:
 
  Friday:
@@ -22,3 +33,4 @@ Sunday:
 - Small animations to the scorecard added
 - Scoring bug fixed (missing lines of code were identified and added)
 - Added API calls for random backgrounds for the level each time it is loaded
+

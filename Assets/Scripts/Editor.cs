@@ -2,16 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Editor : MonoBehaviour
 {
+    public TextMeshProUGUI counter;
+    private String Text;
     public float roundTo = 1f;
     private float multiplier;
     private Conductor conductor;
     private void Start() {
         conductor = GetComponent<Conductor>();
         multiplier = 1f/roundTo;
+    }
+
+    private void Update() {
+        counter.text = (((int) (Math.Floor(conductor.songPositionInBeats) + 3) % 4) + 1).ToString();
     }
 
 
